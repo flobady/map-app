@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongoose = require('mongoose');
+require('./models/contact');
+mongoose.connect('mongodb://flobady:flobadypassword@ds259268.mlab.com:59268/lacapsule_maps_dev');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
