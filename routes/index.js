@@ -48,4 +48,18 @@ router.post('/picture', function(req, res, next) {
   });
 });
 
+router.post('/audio', function(req, res, next) {
+  console.log("serveur : on va traiter un audio");
+  if (!req.files) {return res.status(400).send('No files were uploaded.')};
+  console.log("serveur : on a un fichier audio");
+  // let sampleFile = req.files.sampleFile;
+  let photo = req.files.photo;
+  photo.mv('./public/audio/record.m4a', function(err) {
+    console.log("serveur : on déplace le fichier audio");
+    if (err) {return res.status(500).send(err)};
+    console.log("serveur : on déplace le fichier audi - pas d'erreur");
+    res.send('serveur : Audio File uploaded!');
+  });
+});
+
 module.exports = router;
