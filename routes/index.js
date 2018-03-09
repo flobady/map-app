@@ -7,13 +7,11 @@ const Contact = mongoose.model('contacts');
 
 const DISTANCE_MINIMALE = 10;
 
-// const contacts = [
-//   {"id": 1 , "firstName": "Pierre"  , "lastName":"Coquillou", "coords": { "longitude": 2.408435, "latitude": 48.817861 }, "status": "Walking", "avatar": "http://localhost:3000/images/avatar1.png"},
-//   {"id": 2 , "firstName": "Paul"    , "lastName":"Huili"    , "coords": { "longitude": 2.33, "latitude": 48.857861 }, "status": "Walking"    , "avatar": "http://localhost:3000/images/avatar2.png"},
-//   {"id": 3 , "firstName": "Jacques" , "lastName":"Chabau"   , "coords": { "longitude": 2.331, "latitude": 48.86 }, "status": "Walking"       , "avatar": "http://localhost:3000/images/avatar3.png"},
-// ];
-
 /* GET home page. */
+router.get('/', function(req, res, next) {
+  res.json({message: "Homepage"})
+});
+
 router.post('/', function(req, res, next) {
   var userLocation = { longitude: req.body.longitude, latitude: req.body.latitude }
   console.log("Server called with location: ", userLocation)
@@ -33,6 +31,20 @@ router.post('/', function(req, res, next) {
       console.log("distance to contact is ", distance);
     });
     res.json(newContacts);
+  });
+});
+
+router.post('/picture', function(req, res, next) {
+  console.log("serveur : on va traiter un fichier");
+  if (!req.files) {return res.status(400).send('No files were uploaded.')};
+  console.log("serveur : on a un fichier");
+  // let sampleFile = req.files.sampleFile;
+  let photo = req.files.photo;
+  photo.mv('./public/images/photo.jpg', function(err) {
+    console.log("serveur : on déplace le fichier");
+    if (err) {return res.status(500).send(err)};
+    console.log("serveur : on déplace le fichier - pas d'erreur");
+    res.send('serveur : File uploaded!');
   });
 });
 
